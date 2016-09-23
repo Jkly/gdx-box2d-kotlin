@@ -1,34 +1,31 @@
 project.group = "jkly"
 
 buildscript {
+    ext.kotlin_version = '1.0.4'
     repositories {
         mavenCentral()
-        gradleScriptKotlin()
         maven {
             setUrl("https://plugins.gradle.org/m2/")
         }
 
     }
     dependencies {
-        classpath(kotlinModule("gradle-plugin"))
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version")
         classpath("gradle.plugin.com.zoltu.gradle.plugin:git-versioning:2.0.28")
     }
 }
 
-apply {
-    plugin("com.zoltu.git-versioning")
-    plugin("kotlin")
-    plugin("maven")
-}
+apply plugin: "com.zoltu.git-versioning"
+apply plugin: "kotlin"
+apply plugin: "maven"
 
 repositories {
     mavenCentral()
-    gradleScriptKotlin()
 }
 
-val gdxVersion = "1.7.1"
+ext.gdxVersion = "1.7.1"
 
 dependencies {
-    compile(kotlinModule("stdlib"))
+    compile("org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version")
     compile("com.badlogicgames.gdx:gdx-box2d:$gdxVersion")
 }
