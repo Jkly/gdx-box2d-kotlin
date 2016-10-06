@@ -59,7 +59,7 @@ class BodyFactoryDsl(private val world: World, val bodyDef: BodyDef): BodyDsl() 
 
 class ConfigureBodyDefDsl(val bodyDef: BodyDef)
 
-fun BodyFactoryDsl.create(configure: ConfigureBodyDefDsl.() -> Unit): Body {
+fun BodyFactoryDsl.createBody(configure: ConfigureBodyDefDsl.() -> Unit): Body {
     configure(ConfigureBodyDefDsl(this.bodyDef))
     return this.body
 }
