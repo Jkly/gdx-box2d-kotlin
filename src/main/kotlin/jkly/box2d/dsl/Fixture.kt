@@ -3,13 +3,14 @@ package jkly.box2d.dsl
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.*
 
-fun BodyDsl.circle(configure: CircleFixtureDsl.() -> Unit): Fixture {
+
+fun BodyFixtureDsl.withCircle(configure: CircleFixtureDsl.() -> Unit): Fixture {
     return configureFixture(CircleShape(), body) { shape, fixtureDef ->
         configure(CircleFixtureDsl(shape, fixtureDef))
     }
 }
 
-fun BodyDsl.polygon(configure: PolygonFixtureDsl.() -> Unit): Fixture {
+fun BodyFixtureDsl.withPolygon(configure: PolygonFixtureDsl.() -> Unit): Fixture {
     return configureFixture(PolygonShape(), body) { shape, fixtureDef ->
         configure(PolygonFixtureDsl(shape, fixtureDef))
     }
@@ -22,6 +23,14 @@ private fun <T:Shape> configureFixture(shape: T, body: Body, configure: (T, Fixt
     val fixture = body.createFixture(fixtureDef)
     shape.dispose()
     return fixture
+}
+
+fun circle(configure: CircleFixtureDsl.()->Unit): FixtureDef {
+    val fixtureDef = FixtureDef()
+    val shape = CircleShape()
+    fixtureDef.shape = shape
+    configure(CircleFixtureDsl(shape, fixtureDef))
+    return fixtureDef
 }
 
 abstract class FixtureDsl(private val fixtureDef: FixtureDef) {
