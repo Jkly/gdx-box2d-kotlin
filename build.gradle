@@ -2,6 +2,7 @@ project.group = "jkly"
 
 buildscript {
     ext.kotlin_version = '1.0.4'
+    ext.junit_version = '1.0.0-M2'
     repositories {
         mavenCentral()
         maven {
@@ -12,20 +13,37 @@ buildscript {
     dependencies {
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version")
         classpath("gradle.plugin.com.zoltu.gradle.plugin:git-versioning:2.0.28")
+        classpath("org.junit.platform:junit-platform-gradle-plugin:$junit_version")
     }
 }
 
 apply plugin: "com.zoltu.git-versioning"
 apply plugin: "kotlin"
 apply plugin: "maven"
+apply plugin: 'org.junit.platform.gradle.plugin'
+
+junitPlatform {
+    platformVersion "$junit_version"
+    engines {
+        include "spek"
+    }
+}
+
 
 repositories {
     mavenCentral()
+    maven { url "http://dl.bintray.com/markusamshove/maven" }
 }
 
 ext.gdxVersion = "1.7.1"
+ext.spekVersion = "1.0.89"
 
 dependencies {
     compile("org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version")
     compile("com.badlogicgames.gdx:gdx-box2d:$gdxVersion")
+
+    testCompile("org.jetbrains.spek:spek-api:$spekVersion")
+    testCompile("com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop")
+    testCompile("org.amshove.kluent:kluent:1.6")
+    testRuntime("org.jetbrains.spek:spek-junit-platform-engine:$spekVersion")
 }

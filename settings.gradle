@@ -1,3 +1,2 @@
-//rootProject.buildFileName = 'build.gradle.kts'
 rootProject.name = 'gdx-box2d-kotlin'
 
