@@ -1,4 +1,6 @@
+import com.badlogic.gdx.math.Circle
 import com.badlogic.gdx.math.Vector2
+import com.badlogic.gdx.physics.box2d.Body
 import com.badlogic.gdx.physics.box2d.BodyDef
 import com.badlogic.gdx.physics.box2d.World
 import jkly.box2d.*
@@ -20,7 +22,16 @@ object Test {
         }
 
         addTo(world) {
-            body(def { type(BodyDef.BodyType.DynamicBody) }) {
+            body {
+                withCircle {  }
+            }
+        }
+
+        addTo(world) {
+            body(def {
+                type = BodyDef.BodyType.DynamicBody
+//                bodyDef.type = BodyDef.BodyType.StaticBody
+            }) {
                 withCircle {  }
             }
         }
