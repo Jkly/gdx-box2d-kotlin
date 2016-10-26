@@ -231,17 +231,47 @@ class DslSpec : Spek({
                 circle.isSensor shouldEqual true
             }
             context("setting filters") {
+                it("should use default filters if not specified") {
+                    val circle = circle()
+                    circle.filter.categoryBits shouldEqual 1.toShort()
+                    circle.filter.maskBits shouldEqual (-1).toShort()
+                    circle.filter.groupIndex shouldEqual 0.toShort()
+                }
                 it("should set the category bits via function") {
                     val circle = circle(withFilter {
-                        categoryBits(1)
+                        categoryBits(2)
                     })
-                    circle.filter.categoryBits shouldEqual 1.toShort()
+                    circle.filter.categoryBits shouldEqual 2.toShort()
                 }
                 it("should set the category bits via field") {
                     val circle = circle(withFilter {
-                        categoryBits = 1
+                        categoryBits = 2
                     })
-                    circle.filter.categoryBits shouldEqual 1.toShort()
+                    circle.filter.categoryBits shouldEqual 2.toShort()
+                }
+                it("should set the group index via function") {
+                    val circle = circle(withFilter {
+                        groupIndex(1)
+                    })
+                    circle.filter.groupIndex shouldEqual 1.toShort()
+                }
+                it("should set the group index  via field") {
+                    val circle = circle(withFilter {
+                        groupIndex = 1
+                    })
+                    circle.filter.groupIndex shouldEqual 1.toShort()
+                }
+                it("should set the mask bits via function") {
+                    val circle = circle(withFilter {
+                        maskBits(1)
+                    })
+                    circle.filter.maskBits shouldEqual 1.toShort()
+                }
+                it("should set the mask bits via field") {
+                    val circle = circle(withFilter {
+                        maskBits = 1
+                    })
+                    circle.filter.maskBits shouldEqual 1.toShort()
                 }
             }
         }
