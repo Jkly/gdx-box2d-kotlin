@@ -39,6 +39,18 @@ class DslSpec : Spek({
             }
         }
 
+        context("creating a body") {
+            it("should add a rigidbody with the bodydef") {
+                val body = addTo(world!!) {
+                    val bodyDef = BodyDef()
+                    bodyDef.active = false
+                    body(bodyDef) {
+                    }
+                }
+                body.isActive shouldEqual false
+            }
+        }
+
         context("creating a body def") {
             it("should set the type") {
                 val bodyDef = def {
