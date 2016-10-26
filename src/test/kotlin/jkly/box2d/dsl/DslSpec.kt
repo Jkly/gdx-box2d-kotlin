@@ -40,6 +40,14 @@ class DslSpec : Spek({
         }
 
         context("creating a body") {
+            it("should add a rigidbody with a default bodydef") {
+                val body = addTo(world!!) {
+                    body {
+                    }
+                }
+                body.isActive shouldEqual true
+            }
+
             it("should add a rigidbody with the bodydef") {
                 val body = addTo(world!!) {
                     val bodyDef = BodyDef()
