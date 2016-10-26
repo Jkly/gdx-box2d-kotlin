@@ -5,35 +5,41 @@ import com.badlogic.gdx.physics.box2d.*
 import kotlin.reflect.KProperty
 
 
-fun BodyFixtureDsl.withCircle(configure: CircleFixtureDsl.() -> Unit): Fixture {
-    return configureFixture(CircleShape(), body) { shape, fixtureDef ->
+fun BodyFixtureDsl.withCircle(configureFilter: FilterDsl.() -> Unit = {},
+                              configure: CircleFixtureDsl.() -> Unit): Fixture {
+    return configureFixture(CircleShape(), body, configureFilter) { shape, fixtureDef ->
         configure(CircleFixtureDsl(shape, fixtureDef))
     }
 }
 
-fun BodyFixtureDsl.withPolygon(configure: PolygonFixtureDsl.() -> Unit): Fixture {
-    return configureFixture(PolygonShape(), body) { shape, fixtureDef ->
+fun BodyFixtureDsl.withPolygon(configureFilter: FilterDsl.() -> Unit = {},
+                               configure: PolygonFixtureDsl.() -> Unit): Fixture {
+    return configureFixture(PolygonShape(), body, configureFilter) { shape, fixtureDef ->
         configure(PolygonFixtureDsl(shape, fixtureDef))
     }
 }
 
-private fun <T:Shape> configureFixture(shape: T, body: Body, configure: (T, FixtureDef) -> Unit): Fixture {
-    val fixtureDef = FixtureDef()
-    fixtureDef.shape = shape
-    configure(shape, fixtureDef)
-    val fixture = body.createFixture(fixtureDef)
+private fun <T:Shape> configureFixture(shape: T, body: Body, configureFilter: FilterDsl.() -> Unit,
+                                       configure: (T, FixtureDef) -> Unit): Fixture {
+    val fixture = body.createFixture(fixtureDef(shape, configureFilter, configure))
     shape.dispose()
     return fixture
 }
 
-fun circle(configureFilter: FilterDsl.() -> Unit = {}, configure: CircleFixtureDsl.()->Unit = {}): FixtureDef {
+private fun <T:Shape> fixtureDef(shape: T, configureFilter: FilterDsl.() -> Unit,
+                                 configure: (T, FixtureDef) -> Unit): FixtureDef {
     val fixtureDef = FixtureDef()
     configureFilter(FilterDsl(fixtureDef.filter))
 
-    val shape = CircleShape()
     fixtureDef.shape = shape
-    configure(CircleFixtureDsl(shape, fixtureDef))
+    configure(shape, fixtureDef)
     return fixtureDef
+}
+
+fun circle(configureFilter: FilterDsl.() -> Unit = {}, configure: CircleFixtureDsl.()->Unit = {}): FixtureDef {
+    return fixtureDef(CircleShape(), configureFilter) { shape, fixtureDef ->
+        configure(CircleFixtureDsl(shape, fixtureDef))
+    }
 }
 
 abstract class FixtureDsl(private val fixtureDef: FixtureDef) {
