@@ -64,6 +64,66 @@ class DslSpec : Spek({
                 }
                 bodyDef.awake shouldEqual false
             }
+            it("should set the world angle of the body") {
+                val bodyDef = def {
+                    angle = 90f
+                }
+                bodyDef.angle shouldEqual 90f
+            }
+            it("should set angular damping effect") {
+                val bodyDef = def {
+                    angularDamping = 90f
+                }
+                bodyDef.angularDamping shouldEqual 90f
+            }
+            it("should set angular velocity") {
+                val bodyDef = def {
+                    angularVelocity = 90f
+                }
+                bodyDef.angularVelocity shouldEqual 90f
+            }
+            it("should prevent tunneling") {
+                val bodyDef = def {
+                    bullet = true
+                }
+                bodyDef.bullet shouldEqual true
+            }
+            it("should prevent body from rotating") {
+                val bodyDef = def {
+                    fixedRotation = true
+                }
+                bodyDef.fixedRotation shouldEqual true
+            }
+            it("should set the amount gravity effects the body") {
+                val bodyDef = def {
+                    gravityScale = 0f
+                }
+                bodyDef.gravityScale shouldEqual 0f
+            }
+            it("should set the linear damping") {
+                val bodyDef = def {
+                    linearDamping = 90f
+                }
+                bodyDef.linearDamping shouldEqual 90f
+            }
+            it("should set the linear velocity") {
+                val bodyDef = def {
+                    linearVelocity = Vector2(1f,1f)
+                }
+                bodyDef.linearVelocity shouldEqual Vector2(1f,1f)
+            }
+            it("should set the linear velocity") {
+                val bodyDef = def {
+                    linearDamping = 90f
+                }
+                bodyDef.linearDamping shouldEqual 90f
+            }
+            it("should set the linear velocity") {
+                val bodyDef = def {
+                    position = Vector2(1f,1f)
+                }
+                bodyDef.position shouldEqual Vector2(1f,1f)
+            }
         }
     }
 })
