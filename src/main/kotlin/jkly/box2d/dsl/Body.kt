@@ -73,7 +73,7 @@ class BodyDefDsl(private val bodyDef: BodyDef) {
     var awake: Boolean by object {
         operator fun getValue(bodyDefDsl: BodyDefDsl, property: KProperty<*>): Boolean = bodyDef.awake
         operator fun setValue(bodyDefDsl: BodyDefDsl, property: KProperty<*>, awake: Boolean) {
-            bodyDef.awake = allowSleep
+            bodyDef.awake = awake
         }
     }
 
