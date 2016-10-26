@@ -182,7 +182,7 @@ class DslSpec : Spek({
         }
 
         context("creating a fixture") {
-            it("should set the friction via a method") {
+            it("should set the friction via a function") {
                 val circle = circle {
                     friction(100f)
                 }
@@ -194,7 +194,7 @@ class DslSpec : Spek({
                 }
                 circle.friction shouldEqual 100f
             }
-            it("should set the restitution via a method") {
+            it("should set the restitution via a function") {
                 val circle = circle {
                     restitution(100f)
                 }
@@ -206,7 +206,7 @@ class DslSpec : Spek({
                 }
                 circle.restitution shouldEqual 100f
             }
-            it("should set the density via a method") {
+            it("should set the density via a function") {
                 val circle = circle {
                     density(100f)
                 }
@@ -218,19 +218,29 @@ class DslSpec : Spek({
                 }
                 circle.density shouldEqual 100f
             }
-            it("should set the sensor via a method") {
+            it("should set the sensor via a function") {
                 val circle = circle {
                     isSensor(true)
                 }
                 circle.isSensor shouldEqual true
             }
+            it("should set the sensor via a field") {
+                val circle = circle {
+                    isSensor = true
+                }
+                circle.isSensor shouldEqual true
+            }
             context("setting filters") {
-                it("should set the category bits") {
-                    val circle = circle {
-                        filter {
-                            categoryBits(1)
-                        }
-                    }
+                it("should set the category bits via function") {
+                    val circle = circle(withFilter {
+                        categoryBits(1)
+                    })
+                    circle.filter.categoryBits shouldEqual 1.toShort()
+                }
+                it("should set the category bits via field") {
+                    val circle = circle(withFilter {
+                        categoryBits = 1
+                    })
                     circle.filter.categoryBits shouldEqual 1.toShort()
                 }
             }

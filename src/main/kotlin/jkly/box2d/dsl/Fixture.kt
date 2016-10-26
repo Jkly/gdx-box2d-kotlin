@@ -26,8 +26,10 @@ private fun <T:Shape> configureFixture(shape: T, body: Body, configure: (T, Fixt
     return fixture
 }
 
-fun circle(configure: CircleFixtureDsl.()->Unit): FixtureDef {
+fun circle(configureFilter: FilterDsl.() -> Unit = {}, configure: CircleFixtureDsl.()->Unit = {}): FixtureDef {
     val fixtureDef = FixtureDef()
+    configureFilter(FilterDsl(fixtureDef.filter))
+
     val shape = CircleShape()
     fixtureDef.shape = shape
     configure(CircleFixtureDsl(shape, fixtureDef))
