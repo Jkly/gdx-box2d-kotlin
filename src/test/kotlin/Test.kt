@@ -81,7 +81,9 @@ object Test {
         addTo(world) {
             body {
                 withCircle {
+                    filter {
 
+                    }
 
                 }
             }

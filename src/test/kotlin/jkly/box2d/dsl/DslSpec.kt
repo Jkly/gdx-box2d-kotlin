@@ -2,7 +2,10 @@ package jkly.box2d.dsl
 
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.BodyDef
+import com.badlogic.gdx.physics.box2d.CircleShape
+import com.badlogic.gdx.physics.box2d.Shape
 import com.badlogic.gdx.physics.box2d.World
+import org.amshove.kluent.shouldBe
 import org.amshove.kluent.shouldEqual
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.context
@@ -143,6 +146,93 @@ class DslSpec : Spek({
                     position = Vector2(1f,1f)
                 }
                 bodyDef.position shouldEqual Vector2(1f,1f)
+            }
+        }
+
+        context("creating a circle fixture") {
+            it("should set the type of the circle") {
+                val circle = circle {
+                }
+                circle.shape.type shouldBe Shape.Type.Circle
+            }
+            it("should set the position of the circle shape via a function") {
+                val circle = circle {
+                    position(Vector2(1f, 1f))
+                }
+                (circle.shape as CircleShape).position shouldEqual Vector2(1f, 1f)
+            }
+            it("should set the position of the circle shape via a field") {
+                val circle = circle {
+                    position = Vector2(1f, 1f)
+                }
+                (circle.shape as CircleShape).position shouldEqual Vector2(1f, 1f)
+            }
+            it("should set the radius of the circle shape via a function") {
+                val circle = circle {
+                    radius(50f)
+                }
+                (circle.shape as CircleShape).radius shouldEqual 50f
+            }
+            it("should set the radius of the circle shape via a field") {
+                val circle = circle {
+                    radius = 50f
+                }
+                (circle.shape as CircleShape).radius shouldEqual 50f
+            }
+        }
+
+        context("creating a fixture") {
+            it("should set the friction via a method") {
+                val circle = circle {
+                    friction(100f)
+                }
+                circle.friction shouldEqual 100f
+            }
+            it("should set the friction via a field") {
+                val circle = circle {
+                    friction = 100f
+                }
+                circle.friction shouldEqual 100f
+            }
+            it("should set the restitution via a method") {
+                val circle = circle {
+                    restitution(100f)
+                }
+                circle.restitution shouldEqual 100f
+            }
+            it("should set the restitution via a field") {
+                val circle = circle {
+                    restitution = 100f
+                }
+                circle.restitution shouldEqual 100f
+            }
+            it("should set the density via a method") {
+                val circle = circle {
+                    density(100f)
+                }
+                circle.density shouldEqual 100f
+            }
+            it("should set the density via a field") {
+                val circle = circle {
+                    density = 100f
+                }
+                circle.density shouldEqual 100f
+            }
+            it("should set the sensor via a method") {
+                val circle = circle {
+                    isSensor(true)
+                }
+                circle.isSensor shouldEqual true
+            }
+            context("setting filters") {
+                it("should set the category bits") {
+                    val circle = circle {
+                        filter {
+                            categoryBits(1)
+                        }
+                    }
+                    circle.filter.categoryBits shouldEqual 1.toShort()
+                }
             }
         }
     }
