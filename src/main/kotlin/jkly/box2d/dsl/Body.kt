@@ -116,8 +116,11 @@ fun Dsl.body(bodyDef: BodyDef = BodyDef(),
 
 class BodyDsl(val body: Body)
 
-fun Body.add(fixture: FixtureDef): Fixture {
-    return this.createFixture(fixture)
+fun Body.add(def: FixtureDef): Fixture {
+    val fixture = this.createFixture(def)
+    def.shape.dispose()
+    return fixture
+
 }
 
 class BodyFixtureDsl(val body: Body)

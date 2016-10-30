@@ -2,13 +2,13 @@ package jkly.box2d.dsl
 
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.*
-import org.amshove.kluent.shouldBe
-import org.amshove.kluent.shouldEqual
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.context
 import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.it
 import com.google.common.truth.Truth.assertThat
+import org.amshove.kluent.*
+import org.mockito.Mockito.spy
 
 class DslSpec : Spek({
     describe("a Box2D Rigidbody DSL") {
@@ -168,14 +168,31 @@ class DslSpec : Spek({
                 body.fixtureList[0].shape.type shouldEqual Shape.Type.Circle
                 body.fixtureList[1].shape.type shouldEqual Shape.Type.Polygon
             }
-            it("should be able to add fixtures to body after it is created") {
-                val body = addTo(world!!) {
-                    body {}
+            context("add fixtures to body after body is created") {
+                it("should be able to add a fixture") {
+                    val body = addTo(world!!) {
+                        body {}
+                    }
+                    body.add(circleDef {  })
+                    body.fixtureList.size shouldEqual 1
+                    body.fixtureList[0].shape.type shouldEqual Shape.Type.Circle
                 }
-                body.add(circleDef {  })
-                body.fixtureList.size shouldEqual 1
-                body.fixtureList[0].shape.type shouldEqual Shape.Type.Circle
+                it("should be dispose of the shape") {
+                    val body = addTo(world!!) {
+                        body {}
+                    }
+
+                    val circle = CircleShape()
+                    val shape = spy(circle)
+
+                    val fixtureDef = FixtureDef()
+                    fixtureDef.shape = shape
+                    body.add(fixtureDef)
+
+                    Verify on shape that shape.dispose() was called
+                }
             }
+
             it("should add circle fixture to body with shortcut DSL") {
                 val body = addTo(world!!) {
                     body {
