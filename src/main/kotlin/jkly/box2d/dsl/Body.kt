@@ -13,6 +13,10 @@ fun def(configure: BodyDefDsl.()->Unit): BodyDef {
     return bodyDef
 }
 
+fun defineBody(configure: BodyDefDsl.()->Unit): BodyDef {
+    return def(configure)
+}
+
 
 class BodyDefDsl(private val bodyDef: BodyDef) {
     var type: BodyDef.BodyType by object {

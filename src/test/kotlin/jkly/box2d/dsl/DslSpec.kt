@@ -145,6 +145,12 @@ class DslSpec : Spek({
                 }
                 bodyDef.position shouldEqual Vector2(1f,1f)
             }
+            it("should have a DSL that reads more naturally for creating standalone body definitions") {
+                val bodyDef = defineBody {
+                    type = BodyDef.BodyType.DynamicBody
+                }
+                bodyDef.type shouldEqual BodyDef.BodyType.DynamicBody
+            }
         }
 
         context("adding a fixture to a body") {
