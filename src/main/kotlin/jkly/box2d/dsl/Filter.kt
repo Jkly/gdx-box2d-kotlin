@@ -3,7 +3,7 @@ package jkly.box2d.dsl
 import com.badlogic.gdx.physics.box2d.Filter
 import kotlin.reflect.KProperty
 
-fun withFilter(configure: FilterDsl.() -> Unit) : FilterDsl.() -> Unit  = configure
+fun FixtureDsl.filter(configure: FilterDsl.() -> Unit) : FilterDsl.() -> Unit  = configure
 
 class FilterDsl(private val filter: Filter) {
     var categoryBits: Short by object {

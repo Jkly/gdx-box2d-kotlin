@@ -4,14 +4,14 @@ import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.*
 import kotlin.reflect.KProperty
 
-fun circle(configureFilter: FilterDsl.() -> Unit = {}, configure: CircleFixtureDsl.()->Unit = {}): FixtureDef {
-    return fixtureDef(CircleShape(), configureFilter) { shape, fixtureDef ->
+fun circle(configure: CircleFixtureDsl.()->Unit = {}): FixtureDef {
+    return fixtureDef(CircleShape()) { shape, fixtureDef ->
         configure(CircleFixtureDsl(shape, fixtureDef))
     }
 }
 
-fun polygon(configureFilter: FilterDsl.() -> Unit = {}, configure: PolygonFixtureDsl.()->Unit = {}): FixtureDef {
-    return fixtureDef(PolygonShape(), configureFilter) { shape, fixtureDef ->
+fun polygon(configure: PolygonFixtureDsl.()->Unit = {}): FixtureDef {
+    return fixtureDef(PolygonShape()) { shape, fixtureDef ->
         configure(PolygonFixtureDsl(shape, fixtureDef))
     }
 }
@@ -26,11 +26,9 @@ private fun <T:Shape> addFixture(shape: T, body: Body, fixtureDef: FixtureDef): 
     return fixture
 }
 
-private fun <T:Shape> fixtureDef(shape: T, configureFilter: FilterDsl.() -> Unit,
+private fun <T:Shape> fixtureDef(shape: T,
                                  configure: (T, FixtureDef) -> Unit): FixtureDef {
     val fixtureDef = FixtureDef()
-    configureFilter(FilterDsl(fixtureDef.filter))
-
     fixtureDef.shape = shape
     configure(shape, fixtureDef)
 
@@ -38,10 +36,10 @@ private fun <T:Shape> fixtureDef(shape: T, configureFilter: FilterDsl.() -> Unit
 }
 
 abstract class FixtureDsl(private val fixtureDef: FixtureDef) {
-    val filter: Filter
-    init {
-        filter = fixtureDef.filter
+    fun filter(configureFilter: FilterDsl.() -> Unit = {}) {
+        configureFilter(FilterDsl(fixtureDef.filter))
     }
+
     var friction: Float by object {
         operator fun getValue(dsl: FixtureDsl, property: KProperty<*>): Float = fixtureDef.friction
         operator fun setValue(dsl: FixtureDsl, property: KProperty<*>, friction: Float) {
