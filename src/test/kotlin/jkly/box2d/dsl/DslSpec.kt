@@ -153,42 +153,69 @@ class DslSpec : Spek({
             it("should add a fixture to body") {
                 val body = addTo(world!!) {
                     body {
-                        with(circle {  })
-                        with(polygon {  })
+                        with(circleDef {  })
+                    }
+                }
+                body.fixtureList.size shouldEqual 1
+                body.fixtureList[0].shape.type shouldEqual Shape.Type.Circle
+            }
+            it("should add multiple fixtures to body") {
+                val body = addTo(world!!) {
+                    body {
+                        with(circleDef {  })
+                        with(polygonDef {  })
                     }
                 }
                 body.fixtureList.size shouldEqual 2
                 body.fixtureList[0].shape.type shouldEqual Shape.Type.Circle
                 body.fixtureList[1].shape.type shouldEqual Shape.Type.Polygon
             }
+            it("should add circle fixture to body with shortcut DSL") {
+                val body = addTo(world!!) {
+                    body {
+                        circle {  }
+                    }
+                }
+                body.fixtureList.size shouldEqual 1
+                body.fixtureList[0].shape.type shouldEqual Shape.Type.Circle
+            }
+            it("should add circle fixture to body with shortcut DSL") {
+                val body = addTo(world!!) {
+                    body {
+                        polygon {  }
+                    }
+                }
+                body.fixtureList.size shouldEqual 1
+                body.fixtureList[0].shape.type shouldEqual Shape.Type.Polygon
+            }
         }
 
         context("creating a circle fixture") {
             it("should set the type of the circle") {
-                val circle = circle {
+                val circle = circleDef {
                 }
                 circle.shape.type shouldBe Shape.Type.Circle
             }
             it("should set the position of the circle shape via a function") {
-                val circle = circle {
+                val circle = circleDef {
                     position(Vector2(1f, 1f))
                 }
                 (circle.shape as CircleShape).position shouldEqual Vector2(1f, 1f)
             }
             it("should set the position of the circle shape via a field") {
-                val circle = circle {
+                val circle = circleDef {
                     position = Vector2(1f, 1f)
                 }
                 (circle.shape as CircleShape).position shouldEqual Vector2(1f, 1f)
             }
             it("should set the radius of the circle shape via a function") {
-                val circle = circle {
+                val circle = circleDef {
                     radius(50f)
                 }
                 (circle.shape as CircleShape).radius shouldEqual 50f
             }
             it("should set the radius of the circle shape via a field") {
-                val circle = circle {
+                val circle = circleDef {
                     radius = 50f
                 }
                 (circle.shape as CircleShape).radius shouldEqual 50f
@@ -197,62 +224,62 @@ class DslSpec : Spek({
 
         context("creating a fixture") {
             it("should set the friction via a function") {
-                val circle = circle {
+                val circle = circleDef {
                     friction(100f)
                 }
                 circle.friction shouldEqual 100f
             }
             it("should set the friction via a field") {
-                val circle = circle {
+                val circle = circleDef {
                     friction = 100f
                 }
                 circle.friction shouldEqual 100f
             }
             it("should set the restitution via a function") {
-                val circle = circle {
+                val circle = circleDef {
                     restitution(100f)
                 }
                 circle.restitution shouldEqual 100f
             }
             it("should set the restitution via a field") {
-                val circle = circle {
+                val circle = circleDef {
                     restitution = 100f
                 }
                 circle.restitution shouldEqual 100f
             }
             it("should set the density via a function") {
-                val circle = circle {
+                val circle = circleDef {
                     density(100f)
                 }
                 circle.density shouldEqual 100f
             }
             it("should set the density via a field") {
-                val circle = circle {
+                val circle = circleDef {
                     density = 100f
                 }
                 circle.density shouldEqual 100f
             }
             it("should set the sensor via a function") {
-                val circle = circle {
+                val circle = circleDef {
                     isSensor(true)
                 }
                 circle.isSensor shouldEqual true
             }
             it("should set the sensor via a field") {
-                val circle = circle {
+                val circle = circleDef {
                     isSensor = true
                 }
                 circle.isSensor shouldEqual true
             }
             context("setting filters") {
                 it("should use default filters if not specified") {
-                    val circle = circle()
+                    val circle = circleDef()
                     circle.filter.categoryBits shouldEqual 1.toShort()
                     circle.filter.maskBits shouldEqual (-1).toShort()
                     circle.filter.groupIndex shouldEqual 0.toShort()
                 }
                 it("should set the category bits via function") {
-                    val circle = circle {
+                    val circle = circleDef {
                         filter {
                             categoryBits(2)
                         }
@@ -260,7 +287,7 @@ class DslSpec : Spek({
                     circle.filter.categoryBits shouldEqual 2.toShort()
                 }
                 it("should set the category bits via field") {
-                    val circle = circle {
+                    val circle = circleDef {
                         filter {
                             categoryBits = 2
                         }
@@ -268,7 +295,7 @@ class DslSpec : Spek({
                     circle.filter.categoryBits shouldEqual 2.toShort()
                 }
                 it("should set the group index via function") {
-                    val circle = circle {
+                    val circle = circleDef {
                         filter {
                             groupIndex(1)
                         }
@@ -276,7 +303,7 @@ class DslSpec : Spek({
                     circle.filter.groupIndex shouldEqual 1.toShort()
                 }
                 it("should set the group index  via field") {
-                    val circle = circle {
+                    val circle = circleDef {
                         filter {
                             groupIndex = 1
                         }
@@ -284,7 +311,7 @@ class DslSpec : Spek({
                     circle.filter.groupIndex shouldEqual 1.toShort()
                 }
                 it("should set the mask bits via function") {
-                    val circle = circle {
+                    val circle = circleDef {
                         filter {
                             maskBits(1)
                         }
@@ -292,7 +319,7 @@ class DslSpec : Spek({
                     circle.filter.maskBits shouldEqual 1.toShort()
                 }
                 it("should set the mask bits via field") {
-                    val circle = circle {
+                    val circle = circleDef {
                         filter {
                             maskBits = 1
                         }

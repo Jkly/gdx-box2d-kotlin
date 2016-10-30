@@ -4,13 +4,13 @@ import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.*
 import kotlin.reflect.KProperty
 
-fun circle(configure: CircleFixtureDsl.()->Unit = {}): FixtureDef {
+fun circleDef(configure: CircleFixtureDsl.()->Unit = {}): FixtureDef {
     return fixtureDef(CircleShape()) { shape, fixtureDef ->
         configure(CircleFixtureDsl(shape, fixtureDef))
     }
 }
 
-fun polygon(configure: PolygonFixtureDsl.()->Unit = {}): FixtureDef {
+fun polygonDef(configure: PolygonFixtureDsl.()->Unit = {}): FixtureDef {
     return fixtureDef(PolygonShape()) { shape, fixtureDef ->
         configure(PolygonFixtureDsl(shape, fixtureDef))
     }
@@ -18,6 +18,14 @@ fun polygon(configure: PolygonFixtureDsl.()->Unit = {}): FixtureDef {
 
 fun BodyFixtureDsl.with(fixtureDef: FixtureDef): Fixture {
     return addFixture(fixtureDef.shape, body, fixtureDef)
+}
+
+fun BodyFixtureDsl.circle(configure: CircleFixtureDsl.()->Unit = {}): Fixture {
+    return with(circleDef(configure))
+}
+
+fun BodyFixtureDsl.polygon(configure: PolygonFixtureDsl.()->Unit = {}): Fixture {
+    return with(polygonDef(configure))
 }
 
 private fun <T:Shape> addFixture(shape: T, body: Body, fixtureDef: FixtureDef): Fixture {

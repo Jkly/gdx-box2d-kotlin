@@ -11,14 +11,14 @@ addTo(world) {
             angle = angle
             bullet = true
         }) {
-        with(circle(withFilter {
-                groupIndex = 1
-                categoryBits = 0x0000
-            }) {
+        circle {
             radius = 5f
             isSensor = true
-            
-        })
+            filter {
+                groupIndex = 1
+                categoryBits = 0x0000
+            }
+        }
     }
 }
 ```
