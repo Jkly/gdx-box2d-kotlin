@@ -16,14 +16,8 @@ fun polygon(configureFilter: FilterDsl.() -> Unit = {}, configure: PolygonFixtur
     }
 }
 
-fun BodyFixtureDsl.withCircle(configureFilter: FilterDsl.() -> Unit = {},
-                              configure: CircleFixtureDsl.() -> Unit): Fixture {
-    return addFixture(CircleShape(), body, circle(configureFilter, configure))
-}
-
-fun BodyFixtureDsl.withPolygon(configureFilter: FilterDsl.() -> Unit = {},
-                               configure: PolygonFixtureDsl.() -> Unit): Fixture {
-    return addFixture(PolygonShape(), body, polygon(configureFilter, configure))
+fun BodyFixtureDsl.with(fixtureDef: FixtureDef): Fixture {
+    return addFixture(fixtureDef.shape, body, fixtureDef)
 }
 
 private fun <T:Shape> addFixture(shape: T, body: Body, fixtureDef: FixtureDef): Fixture {
@@ -39,6 +33,7 @@ private fun <T:Shape> fixtureDef(shape: T, configureFilter: FilterDsl.() -> Unit
 
     fixtureDef.shape = shape
     configure(shape, fixtureDef)
+
     return fixtureDef
 }
 

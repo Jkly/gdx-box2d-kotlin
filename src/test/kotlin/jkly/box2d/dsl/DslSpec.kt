@@ -149,6 +149,20 @@ class DslSpec : Spek({
             }
         }
 
+        context("adding a fixture to a body") {
+            it("should add a fixture to body") {
+                val body = addTo(world!!) {
+                    body {
+                        with(circle {  })
+                        with(polygon {  })
+                    }
+                }
+                body.fixtureList.size shouldEqual 2
+                body.fixtureList[0].shape.type shouldEqual Shape.Type.Circle
+                body.fixtureList[1].shape.type shouldEqual Shape.Type.Polygon
+            }
+        }
+
         context("creating a circle fixture") {
             it("should set the type of the circle") {
                 val circle = circle {
@@ -275,5 +289,6 @@ class DslSpec : Spek({
                 }
             }
         }
+
     }
 })

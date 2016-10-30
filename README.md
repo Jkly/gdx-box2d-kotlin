@@ -6,19 +6,19 @@ A DSL for creating rigidbodies.
 val world = World(Vector2.Zero, false)
 
 addTo(world) {
-    body(
-        type = BodyDef.BodyType.DynamicBody,
-        angle = angle,
-        bullet = true) {
-        circle {
+    body(def {
+            type = BodyDef.BodyType.DynamicBody
+            angle = angle
+            bullet = true
+        }) {
+        with(circle {
             radius(5f)
             isSensor(true)
-            filter {
+            withFilter {
                 groupIndex(1)
                 categoryBits(0x0000)
             }
-        }
+        })
     }
 }
-  
 ```
