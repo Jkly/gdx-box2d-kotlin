@@ -1,10 +1,7 @@
 package jkly.box2d.dsl
 
 import com.badlogic.gdx.math.Vector2
-import com.badlogic.gdx.physics.box2d.BodyDef
-import com.badlogic.gdx.physics.box2d.CircleShape
-import com.badlogic.gdx.physics.box2d.Shape
-import com.badlogic.gdx.physics.box2d.World
+import com.badlogic.gdx.physics.box2d.*
 import org.amshove.kluent.shouldBe
 import org.amshove.kluent.shouldEqual
 import org.jetbrains.spek.api.Spek
@@ -169,6 +166,14 @@ class DslSpec : Spek({
                 body.fixtureList.size shouldEqual 2
                 body.fixtureList[0].shape.type shouldEqual Shape.Type.Circle
                 body.fixtureList[1].shape.type shouldEqual Shape.Type.Polygon
+            }
+            it("should be able to add fixtures to body after it is created") {
+                val body = addTo(world!!) {
+                    body {}
+                }
+                body.add(circleDef {  })
+                body.fixtureList.size shouldEqual 1
+                body.fixtureList[0].shape.type shouldEqual Shape.Type.Circle
             }
             it("should add circle fixture to body with shortcut DSL") {
                 val body = addTo(world!!) {
