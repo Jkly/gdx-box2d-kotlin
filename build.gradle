@@ -45,5 +45,6 @@ dependencies {
     testCompile("org.jetbrains.spek:spek-api:$spekVersion")
     testCompile("com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop")
     testCompile("org.amshove.kluent:kluent:1.6")
+    testCompile("com.google.truth:truth:0.28")
     testRuntime("org.jetbrains.spek:spek-junit-platform-engine:$spekVersion")
 }

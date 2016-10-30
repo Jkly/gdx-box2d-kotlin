@@ -8,6 +8,7 @@ import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.context
 import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.it
+import com.google.common.truth.Truth.assertThat
 
 class DslSpec : Spek({
     describe("a Box2D Rigidbody DSL") {
@@ -224,6 +225,77 @@ class DslSpec : Spek({
                     radius = 50f
                 }
                 (circle.shape as CircleShape).radius shouldEqual 50f
+            }
+        }
+
+        context("creating a polygon fixture") {
+            it("should set the type of the polygon") {
+                val fixtureDef = polygonDef {  }
+                fixtureDef.shape.type shouldBe Shape.Type.Polygon
+            }
+            it("should create a box positioned at the origin") {
+                val fixtureDef = polygonDef {
+                    setAsBox(1f, 1f)
+                }
+
+                (fixtureDef.shape as PolygonShape).vertexCount shouldBe 4
+
+                val vec = Vector2()
+                (fixtureDef.shape as PolygonShape).getVertex(0, vec)
+                vec shouldEqual Vector2(-1f, -1f)
+
+                (fixtureDef.shape as PolygonShape).getVertex(1, vec)
+                vec shouldEqual Vector2(1f, -1f)
+
+                (fixtureDef.shape as PolygonShape).getVertex(2, vec)
+                vec shouldEqual Vector2(1f, 1f)
+
+                (fixtureDef.shape as PolygonShape).getVertex(3, vec)
+                vec shouldEqual Vector2(-1f, 1f)
+            }
+            it("should create a box at the specified position") {
+                val fixtureDef = polygonDef {
+                    setAsBox(1f, 1f, Vector2(1f,1f), 0f)
+                }
+
+                (fixtureDef.shape as PolygonShape).vertexCount shouldBe 4
+
+                val vec = Vector2()
+                (fixtureDef.shape as PolygonShape).getVertex(0, vec)
+                vec shouldEqual Vector2(0f, 0f)
+
+                (fixtureDef.shape as PolygonShape).getVertex(1, vec)
+                vec shouldEqual Vector2(2f, 0f)
+
+                (fixtureDef.shape as PolygonShape).getVertex(2, vec)
+                vec shouldEqual Vector2(2f, 2f)
+
+                (fixtureDef.shape as PolygonShape).getVertex(3, vec)
+                vec shouldEqual Vector2(0f, 2f)
+            }
+            it("should create a box with the specified angle") {
+                val fixtureDef = polygonDef {
+                    setAsBox(2f, 1f, Vector2.Zero, (180f * (Math.PI / 180f)).toFloat())
+                }
+
+                (fixtureDef.shape as PolygonShape).vertexCount shouldBe 4
+
+                val vec = Vector2()
+                (fixtureDef.shape as PolygonShape).getVertex(0, vec)
+                assertThat(vec.x).isWithin(0.1f).of(2f)
+                assertThat(vec.y).isWithin(0.1f).of(1f)
+
+                (fixtureDef.shape as PolygonShape).getVertex(1, vec)
+                assertThat(vec.x).isWithin(0.1f).of(-2f)
+                assertThat(vec.y).isWithin(0.1f).of(1f)
+
+                (fixtureDef.shape as PolygonShape).getVertex(2, vec)
+                assertThat(vec.x).isWithin(0.1f).of(-2f)
+                assertThat(vec.y).isWithin(0.1f).of(-1f)
+
+                (fixtureDef.shape as PolygonShape).getVertex(3, vec)
+                assertThat(vec.x).isWithin(0.1f).of(2f)
+                assertThat(vec.y).isWithin(0.1f).of(-1f)
             }
         }
 
