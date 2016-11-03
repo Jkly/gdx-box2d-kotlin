@@ -1,3 +1,5 @@
+[![Build Status](https://semaphoreci.com/api/v1/jkly/gdx-box2d-kotlin/branches/master/shields_badge.svg)](https://semaphoreci.com/jkly/gdx-box2d-kotlin) [ ![Download](https://api.bintray.com/packages/jkly/gdx/gdx-box2d-kotlin/images/download.svg) ](https://bintray.com/jkly/gdx/gdx-box2d-kotlin/_latestVersion)
+
 # Kotlin DSL for LibGDX Box2D
 A DSL for creating rigidbodies.
 
