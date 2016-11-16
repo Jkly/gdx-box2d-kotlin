@@ -60,7 +60,7 @@ bintray {
     publish = true
 
     pkg {
-        repo = "gdx"
+        repo = "releases"
         name = "gdx-box2d-kotlin"
         licenses = ["Apache-2.0"]
         vcsUrl = "https://github.com/Jkly/gdx-box2d-kotlin"
