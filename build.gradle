@@ -38,7 +38,7 @@ repositories {
     maven { url "http://dl.bintray.com/markusamshove/maven" }
 }
 
-ext.gdxVersion = "1.7.1"
+ext.gdxVersion = "1.9.4"
 ext.spekVersion = "1.0.89"
 
 dependencies {
