@@ -1,6 +1,6 @@
 buildscript {
-    ext.kotlin_version = '1.0.4'
-    ext.junit_version = '1.0.0-M2'
+    ext.kotlin_version = '1.1.1'
+    ext.junit_version = '1.0.0-M3'
     repositories {
         mavenCentral()
         maven {
@@ -22,13 +22,14 @@ apply plugin: "maven"
 apply plugin: 'org.junit.platform.gradle.plugin'
 apply plugin: 'com.jfrog.bintray'
 
-group = "jkly"
+group = "pro.gramcode"
 version = version()
 
 junitPlatform {
-    platformVersion "$junit_version"
-    engines {
-        include "spek"
+    filters {
+        engines {
+            include 'spek'
+        }
     }
 }
 
@@ -36,10 +37,11 @@ junitPlatform {
 repositories {
     mavenCentral()
     maven { url "http://dl.bintray.com/markusamshove/maven" }
+    maven { url "http://dl.bintray.com/jetbrains/spek" }
 }
 
-ext.gdxVersion = "1.9.4"
-ext.spekVersion = "1.0.89"
+ext.gdxVersion = "1.9.6"
+ext.spekVersion = "1.1.0-beta4"
 
 dependencies {
     compile("org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version")
@@ -47,9 +49,9 @@ dependencies {
 
     testCompile("org.jetbrains.spek:spek-api:$spekVersion")
     testCompile("com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop")
-    testCompile("org.amshove.kluent:kluent:1.6")
+    testCompile("org.amshove.kluent:kluent:1.15")
     testCompile("com.google.truth:truth:0.28")
-    testCompile("org.mockito:mockito-all:2.0.2-beta")
+    testCompile "org.mockito:mockito-core:2.7.11"
     testRuntime("org.jetbrains.spek:spek-junit-platform-engine:$spekVersion")
 }
 
@@ -65,6 +67,11 @@ bintray {
         licenses = ["Apache-2.0"]
         vcsUrl = "https://github.com/Jkly/gdx-box2d-kotlin"
     }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '3.4.1'
+    distributionType = 'all'
 }
 
 def version() {

@@ -1,22 +1,22 @@
-package jkly.box2d.dsl
+package pro.gramcode.box2d.dsl
 
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.*
+import com.google.common.truth.Truth.assertThat
+import org.amshove.kluent.*
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.context
 import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.it
-import com.google.common.truth.Truth.assertThat
-import org.amshove.kluent.*
-import org.mockito.Mockito.spy
+import org.mockito.Mockito.*
 
 class DslSpec : Spek({
     describe("a Box2D Rigidbody DSL") {
-        var world:World? = null
-        beforeEach {
+        var world: World? = null
+        beforeEachTest {
             world = World(Vector2.Zero, false)
         }
-        afterEach {
+        afterEachTest {
             world?.dispose()
         }
 

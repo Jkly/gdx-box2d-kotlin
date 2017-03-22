@@ -1,4 +1,4 @@
-package jkly.box2d.dsl
+package pro.gramcode.box2d.dsl
 
 import com.badlogic.gdx.physics.box2d.Filter
 import kotlin.reflect.KProperty
