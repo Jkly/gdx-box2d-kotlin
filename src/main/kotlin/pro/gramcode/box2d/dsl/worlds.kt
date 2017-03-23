@@ -4,12 +4,11 @@ import com.badlogic.gdx.physics.box2d.Body
 import com.badlogic.gdx.physics.box2d.BodyDef
 import com.badlogic.gdx.physics.box2d.World
 
-infix fun World.add(rigidBodyFrom: WorldDsl.() -> Unit): List<Body> = addTo(this, rigidBodyFrom)
+infix fun World.add(rigidBodyFrom: WorldDsl.() -> Unit) = addTo(this, rigidBodyFrom)
 
-fun addTo(world: World, configure: WorldDsl.() -> Unit): List<Body> {
+fun addTo(world: World, configure: WorldDsl.() -> Unit) {
     val worldDsl = WorldDsl(world)
     configure(worldDsl)
-    return worldDsl.bodies.toList()
 }
 
 fun World.createBody(bodyDef: BodyDef = BodyDef(), configure: BodyFixtureDsl.() -> Unit = {}): Body {

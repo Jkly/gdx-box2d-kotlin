@@ -6,11 +6,9 @@ import com.badlogic.gdx.physics.box2d.World
 
 @Box2dDslMarker
 class WorldDsl(val world: World) {
-    val bodies: MutableList<Body> = mutableListOf()
-
-    fun body(bodyDef: BodyDef = BodyDef(),
-                 configure: BodyFixtureDsl.() -> Unit = {}) {
-        bodies.add(world.createBody(bodyDef, configure))
+    fun body(bodyDef: BodyDef = BodyDef(), bodyHandler: (Body) -> Unit = {_:Body -> },
+             configure: BodyFixtureDsl.() -> Unit = {}) {
+        bodyHandler(world.createBody(bodyDef, configure))
     }
 }
 

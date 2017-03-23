@@ -7,7 +7,10 @@ import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.context
 import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.it
-import org.mockito.Mockito.*
+import com.badlogic.gdx.utils.Array
+import com.nhaarman.mockito_kotlin.argThat
+import com.nhaarman.mockito_kotlin.spy
+import com.nhaarman.mockito_kotlin.verify
 
 object BodyDslSpec : Spek({
     describe("a rigidbody DSL") {
@@ -27,6 +30,15 @@ object BodyDslSpec : Spek({
                 }
                 world!!.bodyCount shouldEqual 1
             }
+
+            it("should pass the body to the callback") {
+                val callback = spy({ _:Body -> })
+                world!!add {
+                    body(bodyDef(active = false), callback) {
+                    }
+                }
+                verify(callback).invoke(argThat { !isActive })
+            }
         }
 
         context("adding a body via a fluent style API") {
@@ -41,36 +53,44 @@ object BodyDslSpec : Spek({
 
         context("creating a body") {
             it("should add a rigidbody with a default bodydef") {
-                val bodies = addTo(world!!) {
+                addTo(world!!) {
                     body {
                     }
                 }
+                val bodies = Array<Body>()
+                world!!.getBodies(bodies)
                 bodies[0].isActive shouldEqual true
             }
 
             it("should add a rigidbody with the bodydef") {
-                val bodies = addTo(world!!) {
+                addTo(world!!) {
                     body(BodyDef().apply { active = false }) {
                     }
                 }
+                val bodies = Array<Body>()
+                world!!.getBodies(bodies)
                 bodies[0].isActive shouldEqual false
             }
 
             it("should add a rigidbody with the bodydef convenience method") {
-                val bodies = addTo(world!!) {
+                addTo(world!!) {
                     body(bodyDef(active = false)) {
                     }
                 }
+                val bodies = Array<Body>()
+                world!!.getBodies(bodies)
                 bodies[0].isActive shouldEqual false
             }
 
             it("should add multiple rigidbodies") {
-                val bodies = addTo(world!!) {
+                addTo(world!!) {
                     body {
                     }
                     body {
                     }
                 }
+                val bodies = Array<Body>()
+                world!!.getBodies(bodies)
                 bodies.size shouldEqual 2
             }
 
@@ -84,36 +104,42 @@ object BodyDslSpec : Spek({
 
         context("adding a fixture to a body") {
             it("should add a fixture to body") {
-                val bodies = addTo(world!!) {
+                addTo(world!!) {
                     body {
                         with(circleDef { })
                     }
                 }
+                val bodies = Array<Body>()
+                world!!.getBodies(bodies)
                 bodies[0].fixtureList.size shouldEqual 1
                 bodies[0].fixtureList[0].shape.type shouldEqual Shape.Type.Circle
             }
             it("should add multiple fixtures to body") {
-                val bodies = addTo(world!!) {
+                addTo(world!!) {
                     body {
                         with(circleDef {  })
                         with(polygonDef {  })
                     }
                 }
+                val bodies = Array<Body>()
+                world!!.getBodies(bodies)
                 bodies[0].fixtureList.size shouldEqual 2
                 bodies[0].fixtureList[0].shape.type shouldEqual Shape.Type.Circle
                 bodies[0].fixtureList[1].shape.type shouldEqual Shape.Type.Polygon
             }
             context("add fixtures to body after body is created") {
                 it("should be able to add a fixture via a definition") {
-                    val bodies = addTo(world!!) {
+                    addTo(world!!) {
                         body {}
                     }
+                    val bodies = Array<Body>()
+                    world!!.getBodies(bodies)
                     bodies[0].add(circleDef {  })
                     bodies[0].fixtureList.size shouldEqual 1
                     bodies[0].fixtureList[0].shape.type shouldEqual Shape.Type.Circle
                 }
                 it("should be dispose of the shape") {
-                    val bodies = addTo(world!!) {
+                    addTo(world!!) {
                         body {}
                     }
 
@@ -122,6 +148,8 @@ object BodyDslSpec : Spek({
 
                     val fixtureDef = FixtureDef()
                     fixtureDef.shape = shape
+                    val bodies = Array<Body>()
+                    world!!.getBodies(bodies)
                     bodies[0].add(fixtureDef)
 
                     Verify on shape that shape.dispose() was called
@@ -139,20 +167,24 @@ object BodyDslSpec : Spek({
             }
 
             it("should add circle fixture to body with shortcut DSL") {
-                val bodies = addTo(world!!) {
+                addTo(world!!) {
                     body {
                         circle { }
                     }
                 }
+                val bodies = Array<Body>()
+                world!!.getBodies(bodies)
                 bodies[0].fixtureList.size shouldEqual 1
                 bodies[0].fixtureList[0].shape.type shouldEqual Shape.Type.Circle
             }
             it("should add circle fixture to body with shortcut DSL") {
-                val bodies = addTo(world!!) {
+                addTo(world!!) {
                     body {
                         polygon {  }
                     }
                 }
+                val bodies = Array<Body>()
+                world!!.getBodies(bodies)
                 bodies[0].fixtureList.size shouldEqual 1
                 bodies[0].fixtureList[0].shape.type shouldEqual Shape.Type.Polygon
             }
