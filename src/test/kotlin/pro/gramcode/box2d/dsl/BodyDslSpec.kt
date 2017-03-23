@@ -104,7 +104,7 @@ object BodyDslSpec : Spek({
                 bodies[0].fixtureList[1].shape.type shouldEqual Shape.Type.Polygon
             }
             context("add fixtures to body after body is created") {
-                it("should be able to add a fixture") {
+                it("should be able to add a fixture via a definition") {
                     val bodies = addTo(world!!) {
                         body {}
                     }
@@ -125,6 +125,16 @@ object BodyDslSpec : Spek({
                     bodies[0].add(fixtureDef)
 
                     Verify on shape that shape.dispose() was called
+                }
+                it("should be able to add multiple fixtures") {
+                    val body = world!!.createBody()
+                    body.addFixtures {
+                        polygon {  }
+                        circle {  }
+                    }
+                    body.fixtureList.size shouldEqual 2
+                    body.fixtureList[0].shape.type shouldEqual Shape.Type.Polygon
+                    body.fixtureList[1].shape.type shouldEqual Shape.Type.Circle
                 }
             }
 

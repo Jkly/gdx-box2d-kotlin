@@ -12,6 +12,10 @@ fun Body.add(def: FixtureDef): Fixture {
     return fixture
 }
 
+fun Body.addFixtures(fixtureConfigurer: BodyFixtureDsl.() -> Unit) {
+    fixtureConfigurer(BodyFixtureDsl(this))
+}
+
 fun def(configure: BodyDefDsl.()->Unit): BodyDef {
     val bodyDef = BodyDef()
     configure(BodyDefDsl(bodyDef))
