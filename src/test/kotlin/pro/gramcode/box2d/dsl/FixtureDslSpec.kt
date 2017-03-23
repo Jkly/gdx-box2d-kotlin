@@ -1,7 +1,12 @@
 package pro.gramcode.box2d.dsl
 
 import com.badlogic.gdx.math.Vector2
+import com.badlogic.gdx.physics.box2d.CircleShape
+import com.badlogic.gdx.physics.box2d.PolygonShape
+import com.badlogic.gdx.physics.box2d.Shape
 import com.badlogic.gdx.physics.box2d.World
+import com.google.common.truth.Truth
+import org.amshove.kluent.shouldBe
 import org.amshove.kluent.shouldEqual
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.context
@@ -17,6 +22,109 @@ object FixtureDslSpec : Spek({
         afterEachTest {
             world?.dispose()
         }
+        context("creating a circle fixture") {
+            it("should set the type of the circle") {
+                val circle = circleDef {
+                }
+                circle.shape.type shouldBe Shape.Type.Circle
+            }
+            it("should set the position of the circle shape via a function") {
+                val circle = circleDef {
+                    position(Vector2(1f, 1f))
+                }
+                (circle.shape as CircleShape).position shouldEqual Vector2(1f, 1f)
+            }
+            it("should set the position of the circle shape via a field") {
+                val circle = circleDef {
+                    position = Vector2(1f, 1f)
+                }
+                (circle.shape as CircleShape).position shouldEqual Vector2(1f, 1f)
+            }
+            it("should set the radius of the circle shape via a function") {
+                val circle = circleDef {
+                    radius(50f)
+                }
+                (circle.shape as CircleShape).radius shouldEqual 50f
+            }
+            it("should set the radius of the circle shape via a field") {
+                val circle = circleDef {
+                    radius = 50f
+                }
+                (circle.shape as CircleShape).radius shouldEqual 50f
+            }
+        }
+
+        context("creating a polygon fixture") {
+            it("should set the type of the polygon") {
+                val fixtureDef = polygonDef {  }
+                fixtureDef.shape.type shouldBe Shape.Type.Polygon
+            }
+            it("should create a box positioned at the origin") {
+                val fixtureDef = polygonDef {
+                    setAsBox(1f, 1f)
+                }
+
+                (fixtureDef.shape as PolygonShape).vertexCount shouldBe 4
+
+                val vec = Vector2()
+                (fixtureDef.shape as PolygonShape).getVertex(0, vec)
+                vec shouldEqual Vector2(-1f, -1f)
+
+                (fixtureDef.shape as PolygonShape).getVertex(1, vec)
+                vec shouldEqual Vector2(1f, -1f)
+
+                (fixtureDef.shape as PolygonShape).getVertex(2, vec)
+                vec shouldEqual Vector2(1f, 1f)
+
+                (fixtureDef.shape as PolygonShape).getVertex(3, vec)
+                vec shouldEqual Vector2(-1f, 1f)
+            }
+            it("should create a box at the specified position") {
+                val fixtureDef = polygonDef {
+                    setAsBox(1f, 1f, Vector2(1f,1f), 0f)
+                }
+
+                (fixtureDef.shape as PolygonShape).vertexCount shouldBe 4
+
+                val vec = Vector2()
+                (fixtureDef.shape as PolygonShape).getVertex(0, vec)
+                vec shouldEqual Vector2(0f, 0f)
+
+                (fixtureDef.shape as PolygonShape).getVertex(1, vec)
+                vec shouldEqual Vector2(2f, 0f)
+
+                (fixtureDef.shape as PolygonShape).getVertex(2, vec)
+                vec shouldEqual Vector2(2f, 2f)
+
+                (fixtureDef.shape as PolygonShape).getVertex(3, vec)
+                vec shouldEqual Vector2(0f, 2f)
+            }
+            it("should create a box with the specified angle") {
+                val fixtureDef = polygonDef {
+                    setAsBox(2f, 1f, Vector2.Zero, (180f * (Math.PI / 180f)).toFloat())
+                }
+
+                (fixtureDef.shape as PolygonShape).vertexCount shouldBe 4
+
+                val vec = Vector2()
+                (fixtureDef.shape as PolygonShape).getVertex(0, vec)
+                Truth.assertThat(vec.x).isWithin(0.1f).of(2f)
+                Truth.assertThat(vec.y).isWithin(0.1f).of(1f)
+
+                (fixtureDef.shape as PolygonShape).getVertex(1, vec)
+                Truth.assertThat(vec.x).isWithin(0.1f).of(-2f)
+                Truth.assertThat(vec.y).isWithin(0.1f).of(1f)
+
+                (fixtureDef.shape as PolygonShape).getVertex(2, vec)
+                Truth.assertThat(vec.x).isWithin(0.1f).of(-2f)
+                Truth.assertThat(vec.y).isWithin(0.1f).of(-1f)
+
+                (fixtureDef.shape as PolygonShape).getVertex(3, vec)
+                Truth.assertThat(vec.x).isWithin(0.1f).of(2f)
+                Truth.assertThat(vec.y).isWithin(0.1f).of(-1f)
+            }
+        }
+
         context("creating a fixture") {
             it("should set the friction via a function") {
                 val circle = circleDef {
