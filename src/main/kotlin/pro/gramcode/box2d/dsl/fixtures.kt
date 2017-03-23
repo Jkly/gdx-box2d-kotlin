@@ -14,24 +14,6 @@ fun polygonDef(configure: PolygonFixtureDsl.()->Unit = {}): FixtureDef {
     }
 }
 
-fun BodyFixtureDsl.with(fixtureDef: FixtureDef): Fixture {
-    return addFixture(fixtureDef.shape, body, fixtureDef)
-}
-
-fun BodyFixtureDsl.circle(configure: CircleFixtureDsl.()->Unit = {}): Fixture {
-    return with(circleDef(configure))
-}
-
-fun BodyFixtureDsl.polygon(configure: PolygonFixtureDsl.()->Unit = {}): Fixture {
-    return with(polygonDef(configure))
-}
-
-private fun <T: Shape> addFixture(shape: T, body: Body, fixtureDef: FixtureDef): Fixture {
-    val fixture = body.createFixture(fixtureDef)
-    shape.dispose()
-    return fixture
-}
-
 private fun <T: Shape> fixtureDef(shape: T,
                                   configure: (T, FixtureDef) -> Unit): FixtureDef {
     val fixtureDef = FixtureDef()

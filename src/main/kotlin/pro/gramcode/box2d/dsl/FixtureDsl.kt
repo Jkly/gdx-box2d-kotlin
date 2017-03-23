@@ -3,6 +3,7 @@ package pro.gramcode.box2d.dsl
 import com.badlogic.gdx.physics.box2d.FixtureDef
 import kotlin.reflect.KProperty
 
+@Box2dDslMarker
 abstract class FixtureDsl(private val fixtureDef: FixtureDef) {
     fun filter(configureFilter: FilterDsl.() -> Unit = {}) {
         configureFilter(FilterDsl(fixtureDef.filter))

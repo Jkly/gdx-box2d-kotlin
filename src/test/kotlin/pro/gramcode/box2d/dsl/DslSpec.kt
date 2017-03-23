@@ -22,7 +22,7 @@ class DslSpec : Spek({
 
         context("adding a body via an extension method") {
             it("should add a rigidbody to the world") {
-                world!! add {
+                world!!add {
                     body {
                     }
                 }
@@ -51,9 +51,15 @@ class DslSpec : Spek({
 
             it("should add a rigidbody with the bodydef") {
                 val body = addTo(world!!) {
-                    val bodyDef = BodyDef()
-                    bodyDef.active = false
-                    body(bodyDef) {
+                    body(BodyDef().apply { active = false }) {
+                    }
+                }
+                body.isActive shouldEqual false
+            }
+
+            it("should add a rigidbody with the bodydef convenience method") {
+                val body = addTo(world!!) {
+                    body(bodyDef(active = false)) {
                     }
                 }
                 body.isActive shouldEqual false
@@ -153,11 +159,98 @@ class DslSpec : Spek({
             }
         }
 
+        context("creating a body def via a convenience factory method") {
+            it("should set the type") {
+                val bodyDef = bodyDef(
+                    type = BodyDef.BodyType.DynamicBody
+                )
+                bodyDef.type shouldEqual BodyDef.BodyType.DynamicBody
+            }
+            it("should set whether the body is active when started") {
+                val bodyDef = bodyDef(
+                    active = false
+                )
+                bodyDef.active shouldEqual false
+            }
+            it("should set whether the body should never fall asleep") {
+                val bodyDef = bodyDef(
+                    allowSleep = false
+                )
+                bodyDef.allowSleep shouldEqual false
+            }
+            it("should set whether the body should be initially awake") {
+                val bodyDef = bodyDef(
+                    awake = false
+                )
+                bodyDef.awake shouldEqual false
+            }
+            it("should set the world angle of the body") {
+                val bodyDef = bodyDef(
+                    angle = 90f
+                )
+                bodyDef.angle shouldEqual 90f
+            }
+            it("should set angular damping effect") {
+                val bodyDef = bodyDef(
+                    angularDamping = 90f
+                )
+                bodyDef.angularDamping shouldEqual 90f
+            }
+            it("should set angular velocity") {
+                val bodyDef = bodyDef(
+                    angularVelocity = 90f
+                )
+                bodyDef.angularVelocity shouldEqual 90f
+            }
+            it("should prevent tunneling") {
+                val bodyDef = bodyDef(
+                    bullet = true
+                )
+                bodyDef.bullet shouldEqual true
+            }
+            it("should prevent body from rotating") {
+                val bodyDef = bodyDef(
+                    fixedRotation = true
+                )
+                bodyDef.fixedRotation shouldEqual true
+            }
+            it("should set the amount gravity effects the body") {
+                val bodyDef = bodyDef(
+                    gravityScale = 0f
+                )
+                bodyDef.gravityScale shouldEqual 0f
+            }
+            it("should set the linear damping") {
+                val bodyDef = bodyDef(
+                    linearDamping = 90f
+                )
+                bodyDef.linearDamping shouldEqual 90f
+            }
+            it("should set the linear velocity") {
+                val bodyDef = bodyDef(
+                    linearVelocity = Vector2(1f,1f)
+                )
+                bodyDef.linearVelocity shouldEqual Vector2(1f,1f)
+            }
+            it("should set the linear velocity") {
+                val bodyDef = bodyDef(
+                    linearDamping = 90f
+                )
+                bodyDef.linearDamping shouldEqual 90f
+            }
+            it("should set the linear velocity") {
+                val bodyDef = bodyDef(
+                    position = Vector2(1f,1f)
+                )
+                bodyDef.position shouldEqual Vector2(1f,1f)
+            }
+        }
+
         context("adding a fixture to a body") {
             it("should add a fixture to body") {
                 val body = addTo(world!!) {
                     body {
-                        with(circleDef {  })
+                        with(circleDef { })
                     }
                 }
                 body.fixtureList.size shouldEqual 1
@@ -202,7 +295,7 @@ class DslSpec : Spek({
             it("should add circle fixture to body with shortcut DSL") {
                 val body = addTo(world!!) {
                     body {
-                        circle {  }
+                        circle { }
                     }
                 }
                 body.fixtureList.size shouldEqual 1
