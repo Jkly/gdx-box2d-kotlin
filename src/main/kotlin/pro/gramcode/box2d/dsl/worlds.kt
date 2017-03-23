@@ -12,7 +12,7 @@ fun addTo(world: World, configure: WorldDsl.() -> Unit): List<Body> {
     return worldDsl.bodies.toList()
 }
 
-fun World.createBody(bodyDef: BodyDef, configure: BodyFixtureDsl.() -> Unit = {}): Body {
+fun World.createBody(bodyDef: BodyDef = BodyDef(), configure: BodyFixtureDsl.() -> Unit = {}): Body {
     val body = this.createBody(bodyDef)
     configure(BodyFixtureDsl(body))
     return body
