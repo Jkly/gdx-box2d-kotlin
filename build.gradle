@@ -52,7 +52,7 @@ repositories {
 }
 
 ext.gdxVersion = "1.9.6"
-ext.spekVersion = "1.1.0-beta4"
+ext.spekVersion = "1.1.0"
 
 dependencies {
     compile("org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version")
