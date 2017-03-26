@@ -54,6 +54,7 @@ dependencies {
     compile("org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version")
     compile("com.badlogicgames.gdx:gdx-box2d:$gdxVersion")
 
+    testCompile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
     testCompile("org.jetbrains.spek:spek-api:$spekVersion")
     testCompile("com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop")
     testCompile("org.amshove.kluent:kluent:1.15")
