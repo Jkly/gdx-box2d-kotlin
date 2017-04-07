@@ -18,6 +18,20 @@ class BodyDefDsl(private val bodyDef: BodyDef) {
         }
     }
 
+    var x: Float by object {
+        operator fun getValue(bodyDefDsl: BodyDefDsl, property: KProperty<*>): Float = bodyDef.position.x
+        operator fun setValue(bodyDefDsl: BodyDefDsl, property: KProperty<*>, x: Float) {
+            bodyDef.position.x = x
+        }
+    }
+
+    var y: Float by object {
+        operator fun getValue(bodyDefDsl: BodyDefDsl, property: KProperty<*>): Float = bodyDef.position.y
+        operator fun setValue(bodyDefDsl: BodyDefDsl, property: KProperty<*>, y: Float) {
+            bodyDef.position.y = y
+        }
+    }
+
     var angle: Float by object {
         operator fun getValue(bodyDefDsl: BodyDefDsl, property: KProperty<*>): Float = bodyDef.angle
         operator fun setValue(bodyDefDsl: BodyDefDsl, property: KProperty<*>, angle: Float) {

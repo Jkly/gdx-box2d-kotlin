@@ -89,11 +89,24 @@ object BodyDefDslSpec : Spek({
                 }
                 bodyDef.linearDamping shouldEqual 90f
             }
-            it("should set the linear velocity") {
+            it("should set the position") {
                 val bodyDef = def {
                     position = Vector2(1f,1f)
                 }
                 bodyDef.position shouldEqual Vector2(1f,1f)
+            }
+            it("should set the position via x coord") {
+                val bodyDef = def {
+                    x = 1f
+                }
+                bodyDef.position shouldEqual Vector2(1f,0f)
+            }
+
+            it("should set the position via y coord") {
+                val bodyDef = def {
+                    y = 1f
+                }
+                bodyDef.position shouldEqual Vector2(0f,1f)
             }
             it("should have a DSL that reads more naturally for creating standalone body definitions") {
                 val bodyDef = defineBody {
