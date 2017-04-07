@@ -99,6 +99,26 @@ object FixtureDslSpec : Spek({
                 (fixtureDef.shape as PolygonShape).getVertex(3, vec)
                 vec shouldEqual Vector2(0f, 2f)
             }
+            it("should create a box at the specified position with default angle") {
+                val fixtureDef = polygonDef {
+                    setAsBox(1f, 1f, Vector2(1f,1f))
+                }
+
+                (fixtureDef.shape as PolygonShape).vertexCount shouldBe 4
+
+                val vec = Vector2()
+                (fixtureDef.shape as PolygonShape).getVertex(0, vec)
+                vec shouldEqual Vector2(0f, 0f)
+
+                (fixtureDef.shape as PolygonShape).getVertex(1, vec)
+                vec shouldEqual Vector2(2f, 0f)
+
+                (fixtureDef.shape as PolygonShape).getVertex(2, vec)
+                vec shouldEqual Vector2(2f, 2f)
+
+                (fixtureDef.shape as PolygonShape).getVertex(3, vec)
+                vec shouldEqual Vector2(0f, 2f)
+            }
             it("should create a box with the specified angle") {
                 val fixtureDef = polygonDef {
                     setAsBox(2f, 1f, Vector2.Zero, (180f * (Math.PI / 180f)).toFloat())
