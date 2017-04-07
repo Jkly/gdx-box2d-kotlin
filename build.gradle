@@ -27,6 +27,7 @@ group = "pro.gramcode"
 version = version()
 
 junitPlatform {
+    platformVersion = "$junit_version"
     filters {
         engines {
             include 'spek'
