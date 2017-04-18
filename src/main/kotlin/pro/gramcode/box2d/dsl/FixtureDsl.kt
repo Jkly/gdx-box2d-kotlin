@@ -1,7 +1,6 @@
 package pro.gramcode.box2d.dsl
 
 import com.badlogic.gdx.physics.box2d.FixtureDef
-import kotlin.reflect.KProperty
 
 @Box2dDslMarker
 abstract class FixtureDsl(private val fixtureDef: FixtureDef) {
@@ -9,33 +8,29 @@ abstract class FixtureDsl(private val fixtureDef: FixtureDef) {
         configureFilter(FilterDsl(fixtureDef.filter))
     }
 
-    var friction: Float by object {
-        operator fun getValue(dsl: FixtureDsl, property: KProperty<*>): Float = fixtureDef.friction
-        operator fun setValue(dsl: FixtureDsl, property: KProperty<*>, friction: Float) {
+    var friction: Float
+        get() = fixtureDef.friction
+        set(friction) {
             fixtureDef.friction = friction
         }
-    }
 
-    var restitution: Float by object {
-        operator fun getValue(dsl: FixtureDsl, property: KProperty<*>): Float = fixtureDef.restitution
-        operator fun setValue(dsl: FixtureDsl, property: KProperty<*>, restitution: Float) {
+    var restitution: Float
+        get() = fixtureDef.restitution
+        set(restitution) {
             fixtureDef.restitution = restitution
         }
-    }
 
-    var density: Float by object {
-        operator fun getValue(dsl: FixtureDsl, property: KProperty<*>): Float = fixtureDef.density
-        operator fun setValue(dsl: FixtureDsl, property: KProperty<*>, density: Float) {
+    var density: Float
+        get() = fixtureDef.density
+        set(density) {
             fixtureDef.density = density
         }
-    }
 
-    var isSensor: Boolean by object {
-        operator fun getValue(dsl: FixtureDsl, property: KProperty<*>): Boolean = fixtureDef.isSensor
-        operator fun setValue(dsl: FixtureDsl, property: KProperty<*>, isSensor: Boolean) {
+    var isSensor: Boolean
+        get() = fixtureDef.isSensor
+        set(isSensor) {
             fixtureDef.isSensor = isSensor
         }
-    }
 
     fun friction(friction:Float) {
         fixtureDef.friction = friction

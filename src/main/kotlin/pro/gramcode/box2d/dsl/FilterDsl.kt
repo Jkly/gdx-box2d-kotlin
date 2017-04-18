@@ -1,28 +1,24 @@
 package pro.gramcode.box2d.dsl
 
 import com.badlogic.gdx.physics.box2d.Filter
-import kotlin.reflect.KProperty
 
 @Box2dDslMarker
 class FilterDsl(private val filter: Filter) {
-    var categoryBits: Short by object {
-        operator fun getValue(dsl: FilterDsl, property: KProperty<*>): Short = filter.categoryBits
-        operator fun setValue(dsl: FilterDsl, property: KProperty<*>, categoryBits: Short) {
+    var categoryBits: Short
+        get() = filter.categoryBits
+        set(categoryBits) {
             filter.categoryBits = categoryBits
         }
-    }
-    var maskBits: Short by object {
-        operator fun getValue(dsl: FilterDsl, property: KProperty<*>): Short = filter.maskBits
-        operator fun setValue(dsl: FilterDsl, property: KProperty<*>, maskBits: Short) {
+    var maskBits: Short
+        get() = filter.maskBits
+        set(maskBits) {
             filter.maskBits = maskBits
         }
-    }
-    var groupIndex: Short by object {
-        operator fun getValue(dsl: FilterDsl, property: KProperty<*>): Short = filter.groupIndex
-        operator fun setValue(dsl: FilterDsl, property: KProperty<*>, groupIndex: Short) {
+    var groupIndex: Short
+        get() = filter.groupIndex
+        set(groupIndex) {
             filter.groupIndex = groupIndex
         }
-    }
 
     fun categoryBits(bits: Short) {
         filter.categoryBits = bits
