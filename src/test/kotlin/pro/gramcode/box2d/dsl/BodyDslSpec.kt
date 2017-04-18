@@ -189,5 +189,26 @@ object BodyDslSpec : Spek({
                 bodies[0].fixtureList[0].shape.type shouldEqual Shape.Type.Polygon
             }
         }
+
+        context("setting the body type via extension function") {
+            it("should configure the body definition") {
+                addTo(world!!) {
+                    body({ active = true }) {
+                    }
+                }
+                val bodies = Array<Body>()
+                world!!.getBodies(bodies)
+                bodies[0].isActive shouldEqual true
+            }
+
+            it("should pass the body to the callback") {
+                val callback = spy({ _:Body -> })
+                world!!add {
+                    body({ active = false }, callback) {
+                    }
+                }
+                verify(callback).invoke(argThat { !isActive })
+            }
+        }
     }
 })
