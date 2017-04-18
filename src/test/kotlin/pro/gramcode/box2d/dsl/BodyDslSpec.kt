@@ -2,15 +2,15 @@ package pro.gramcode.box2d.dsl
 
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.*
+import com.badlogic.gdx.utils.Array
+import com.nhaarman.mockito_kotlin.argThat
+import com.nhaarman.mockito_kotlin.spy
+import com.nhaarman.mockito_kotlin.verify
 import org.amshove.kluent.*
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.context
 import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.it
-import com.badlogic.gdx.utils.Array
-import com.nhaarman.mockito_kotlin.argThat
-import com.nhaarman.mockito_kotlin.spy
-import com.nhaarman.mockito_kotlin.verify
 
 object BodyDslSpec : Spek({
     describe("a rigidbody DSL") {
@@ -177,7 +177,7 @@ object BodyDslSpec : Spek({
                 bodies[0].fixtureList.size shouldEqual 1
                 bodies[0].fixtureList[0].shape.type shouldEqual Shape.Type.Circle
             }
-            it("should add circle fixture to body with shortcut DSL") {
+            it("should add polygon fixture to body with shortcut DSL") {
                 addTo(world!!) {
                     body {
                         polygon {  }
