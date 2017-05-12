@@ -201,14 +201,6 @@ object FixtureDslSpec : Spek({
                     circle.filter.maskBits shouldEqual (-1).toShort()
                     circle.filter.groupIndex shouldEqual 0.toShort()
                 }
-                it("should set the category bits via function") {
-                    val circle = circleDef {
-                        filter {
-                            categoryBits(2)
-                        }
-                    }
-                    circle.filter.categoryBits shouldEqual 2.toShort()
-                }
                 it("should set the category bits via field") {
                     val circle = circleDef {
                         filter {
@@ -217,14 +209,6 @@ object FixtureDslSpec : Spek({
                     }
                     circle.filter.categoryBits shouldEqual 2.toShort()
                 }
-                it("should set the group index via function") {
-                    val circle = circleDef {
-                        filter {
-                            groupIndex(1)
-                        }
-                    }
-                    circle.filter.groupIndex shouldEqual 1.toShort()
-                }
                 it("should set the group index  via field") {
                     val circle = circleDef {
                         filter {
@@ -232,14 +216,6 @@ object FixtureDslSpec : Spek({
                         }
                     }
                     circle.filter.groupIndex shouldEqual 1.toShort()
-                }
-                it("should set the mask bits via function") {
-                    val circle = circleDef {
-                        filter {
-                            maskBits(1)
-                        }
-                    }
-                    circle.filter.maskBits shouldEqual 1.toShort()
                 }
                 it("should set the mask bits via field") {
                     val circle = circleDef {

@@ -1,11 +1,12 @@
 package pro.gramcode.box2d.dsl
 
+import com.badlogic.gdx.physics.box2d.Filter
 import com.badlogic.gdx.physics.box2d.FixtureDef
 
 @Box2dDslMarker
 abstract class FixtureDsl(private val fixtureDef: FixtureDef) {
-    fun filter(configureFilter: FilterDsl.() -> Unit = {}) {
-        configureFilter(FilterDsl(fixtureDef.filter))
+    fun filter(configureFilter: Filter.() -> Unit = {}) {
+        configureFilter(fixtureDef.filter)
     }
 
     var friction: Float
